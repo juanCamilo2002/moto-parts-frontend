@@ -36,3 +36,33 @@ export interface Customer {
   created_at?: string;
   seller?: number;
 }
+
+export interface CartItem {
+  id: number;
+  product: Product;
+  quantity: number;
+}
+
+export interface Cart {
+  id: number;
+  customer: Customer;
+  items_detail: CartItem[];
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface OrderItem {
+  id: number;
+  product: Product;
+  quantity: number;
+  price: number;
+}
+
+export interface Order {
+  id: number;
+  items_detail: OrderItem[];
+  customer: Customer;
+  seller: number;
+  total: number;
+  status: string
+}

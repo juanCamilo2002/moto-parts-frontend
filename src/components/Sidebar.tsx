@@ -4,6 +4,7 @@ import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Too
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PeopleIcon from "@mui/icons-material/People";
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import CategoryIcon from "@mui/icons-material/Category";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -13,7 +14,8 @@ const menuItems = [
   { text: "Inicio", icon: <DashboardIcon />, path: "/dashboard" },
   { text: "Productos", icon: <CategoryIcon />, path: "/dashboard/products" },
   { text: "Clientes", icon: <PeopleIcon />, path: "/dashboard/customers" },
-  { text: "Pedidos", icon: <ShoppingCartIcon />, path: "/dashboard/orders" },
+  { text: "Carritos de compra", icon: <ShoppingCartIcon />, path: "/dashboard/cart" },
+  { text: "Pedidos", icon: <ShoppingBagIcon />, path: "/dashboard/orders" },
 ];
 
 export default function Sidebar() {
