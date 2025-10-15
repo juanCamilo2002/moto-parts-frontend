@@ -1,21 +1,16 @@
-'use client';
-import LogoutButton from '@/components/LogoutButton'
-import { useAuthStore } from '@/modules/auth/store/authStore'
-import React from 'react'
+"use client";
 
-const DashboardPage = () => {
-    const { user } = useAuthStore();
-    return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
-            <div className="bg-white shadow-md rounded-xl p-8 w-full max-w-md text-center">
-                <h1 className="text-2xl font-bold mb-4">👋 Bienvenido, {user?.email}</h1>
-                <p className="text-gray-600 mb-6">
-                    Has iniciado sesión correctamente en <span className="font-semibold">MotoParts</span>.
-                </p>
-                <LogoutButton />
-            </div>
-        </div>
-    )
+import { Typography, Paper, Box } from "@mui/material";
+
+export default function DashboardPage() {
+  return (
+    <Box>
+      <Typography variant="h4" fontWeight="bold">
+        Bienvenido al sistema MotoParts 🏍️
+      </Typography>
+      <Paper sx={{ p: 3, mt: 3 }}>
+        <Typography>Selecciona un módulo desde el menú lateral para comenzar.</Typography>
+      </Paper>
+    </Box>
+  );
 }
-
-export default DashboardPage
