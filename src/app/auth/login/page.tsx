@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/modules/auth/hooks/useAuth";
 import { useAuthStore } from "@/modules/auth/store/authStore";
+import { Viewport } from "next";
+
+
 
 
 export default function LoginPage() {

@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "@/providers/Providers";
+import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 
 
 
@@ -16,9 +17,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MotoParts",
-  description: "Sistema de gestión de repuestos para motocicletas",
+  title: "Moto Parts",
+  description: "A Progressive Web App built with Next.js 15",
 };
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
+};
+
+
 
 export default function RootLayout({
   children,
@@ -31,6 +38,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+         <ServiceWorkerRegister />
         {children}
       </body>
     </html>

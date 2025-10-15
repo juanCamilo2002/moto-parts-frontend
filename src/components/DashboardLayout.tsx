@@ -9,7 +9,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: 'flex' }}>
       <Topbar onMenuClick={handleDrawerToggle} />
       <Sidebar mobileOpen={mobileOpen} onClose={handleDrawerToggle} />
 
