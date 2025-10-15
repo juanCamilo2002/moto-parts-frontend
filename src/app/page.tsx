@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/modules/auth/store/authStore";
 import { CircularProgress, Box } from "@mui/material";
 
+
+
 export default function Home() {
   const router = useRouter();
   const { isAuthenticated } = useAuthStore();

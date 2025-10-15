@@ -25,6 +25,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
+
 export default function CartPage() {
   const { cart, fetchCart, addProduct, checkout, addItemToCart } = useCartStore();
   const { fetchCustomers, customers } = useCustomersStore();
@@ -40,11 +41,11 @@ export default function CartPage() {
   useEffect(() => {
     fetchProducts();
     fetchCustomers();
-  }, []);
+  }, [fetchCustomers, fetchProducts]);
 
   useEffect(() => {
     if (selectedCustomer) fetchCart(selectedCustomer);
-  }, [selectedCustomer]);
+  }, [selectedCustomer, fetchCart]);
 
   const handleAddProduct = () => {
     if (!selectedCustomer || !selectedProduct) return;

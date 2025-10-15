@@ -16,6 +16,6 @@ export default function ProtectedRoute({ children }: Props) {
         if (!isAuthenticated && !localStorage.getItem('access')) {
             router.push('/auth/login');
         }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, router]);
     return <>{children}</>
 }

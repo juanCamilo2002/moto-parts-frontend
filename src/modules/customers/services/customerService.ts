@@ -1,5 +1,5 @@
 import api from "@/api/axios";
-import { Customer, Product } from "@/types";
+import { Customer } from "@/types";
 
 const baseUrl = '/customers/';
 

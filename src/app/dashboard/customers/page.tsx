@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   Grid,
   Card,
@@ -15,14 +14,13 @@ import {
   DialogActions,
   Box,
   Divider,
-  IconButton,
 } from "@mui/material";
 import { Add, Person, Business, Email, Phone } from "@mui/icons-material";
 import { useCustomersStore } from "@/modules/customers/stores/customersStore";
 import { Customer } from "@/types";
 
+
 export default function CustomersPage() {
-  const router = useRouter();
   const { customers, activeCustomer, fetchCustomers, setActiveCustomer, addCustomer, loading } =
     useCustomersStore();
 
@@ -40,7 +38,7 @@ export default function CustomersPage() {
 
   useEffect(() => {
     fetchCustomers();
-  }, []);
+  }, [fetchCustomers]);
 
   const handleCreateCustomer = async () => {
     try {

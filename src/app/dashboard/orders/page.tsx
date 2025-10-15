@@ -16,11 +16,12 @@ import {
   TextField,
   Box,
   CircularProgress,
-  Stack,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import { ShoppingCart, Person, AttachMoney } from "@mui/icons-material";
+
+
 
 export default function OrdersPage() {
   const { orders, fetchOrders, updateStatus, loading } = useOrderStore();
@@ -29,7 +30,7 @@ export default function OrdersPage() {
 
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [fetchOrders]);
 
   const handleStatusChange = (orderId: number, newStatus: string) => {
     updateStatus(orderId, newStatus);
@@ -64,7 +65,7 @@ export default function OrdersPage() {
       ) : (
         <Grid container spacing={3}>
           {orders.map((order) => (
-            <Grid key={order.id} component={'div'} size={{xs: 12, sm: 6, md: 4}}>
+            <Grid key={order.id} component={'div'} size={{xs: 12, sm: 6, md: 6}}>
               <Card
                 sx={{
                   borderRadius: 3,

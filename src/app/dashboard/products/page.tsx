@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useProductsStore } from "@/modules/products/store/productsStore";
 
 import Grid from "@mui/material/Grid";
@@ -19,7 +19,7 @@ export default function ProductsPage() {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
   const filteredProducts = products
     .filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
