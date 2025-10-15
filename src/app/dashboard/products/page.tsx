@@ -5,13 +5,11 @@ import { useProductsStore } from "@/modules/products/store/productsStore";
 
 import Grid from "@mui/material/Grid";
 import {
-  Card,
-  CardContent,
-  CardMedia,
   Typography,
   TextField,
   MenuItem,
 } from "@mui/material";
+import { ProductCard } from "@/modules/products/components/ProductCard";
 
 export default function ProductsPage() {
   const { products, fetchProducts, loading } = useProductsStore();
@@ -75,21 +73,7 @@ export default function ProductsPage() {
         <Grid container spacing={2}>
           {filteredProducts.map((product) => (
             <Grid key={product.id} size={{ xs: 12, sm: 6, md: 4 }}  component={'div'}>
-              <Card>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={product.image || "https://placehold.co/600x400"}
-                  alt={product.name}
-                />
-                <CardContent>
-                  <Typography variant="h6">{product.name}</Typography>
-                  <Typography color="text.secondary">
-                    {product.brand.name} - {product.category.name}
-                  </Typography>
-                  <Typography variant="body1">${product.price}</Typography>
-                </CardContent>
-              </Card>
+              <ProductCard product={product}/>
             </Grid>
           ))}
         </Grid>

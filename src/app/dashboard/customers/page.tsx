@@ -1,7 +1,7 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Grid,
   Card,
@@ -18,6 +18,7 @@ import { useCustomersStore } from "@/modules/customers/stores/customersStore";
 import { Customer } from "@/types";
 
 export default function CustomersPage() {
+  const router = useRouter(); 
   const { customers, activeCustomer, fetchCustomers, setActiveCustomer, addCustomer, loading } =
     useCustomersStore();
 
@@ -56,6 +57,7 @@ export default function CustomersPage() {
     }
   };
 
+ 
   return (
     <div>
       <Typography variant="h4" gutterBottom>
@@ -71,7 +73,7 @@ export default function CustomersPage() {
       ) : (
         <Grid container spacing={2} style={{ marginTop: "1rem" }}>
           {customers.map((customer) => (
-            <Grid key={customer.id} size={{ xs: 12, sm: 6, md: 4 }} component={'div'}>
+            <Grid key={customer.id} size={{ xs: 12, sm: 6, md: 4 }}  component={'div'}>
               <Card
                 variant={activeCustomer?.id === customer.id ? "outlined" : "elevation"}
                 style={{
@@ -85,6 +87,7 @@ export default function CustomersPage() {
                   {customer.last_name && <Typography>{customer.last_name}</Typography>}
                   {customer.email && <Typography>{customer.email}</Typography>}
                   {customer.phone && <Typography>{customer.phone}</Typography>}
+
                 </CardContent>
               </Card>
             </Grid>
@@ -92,7 +95,7 @@ export default function CustomersPage() {
         </Grid>
       )}
 
-      {/* Dialog para crear customere */}
+      {/* Dialog para crear cliente */}
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>Crear cliente</DialogTitle>
         <DialogContent style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -117,7 +120,7 @@ export default function CustomersPage() {
             onChange={(e) => setNewcustomer({ ...newCustomer, phone: e.target.value })}
           />
           <TextField
-            label="numero de identificación"
+            label="Número de identificación"
             value={newCustomer.identification_number}
             onChange={(e) => setNewcustomer({ ...newCustomer, identification_number: e.target.value })}
           />
