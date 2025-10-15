@@ -36,7 +36,9 @@ export const useCartStore = create<CartState>((set, get) => ({
     try {
       await cartServices.checkout(cartId);
       set({ cart: null });
+      enqueueSnackbar("Pedido creado exitosamente ✅", { variant: "success" });
     } catch (error) {
+      enqueueSnackbar("Error al crear el pedido", { variant: "error" });
       console.error("Error al hacer checkout:", error);
     }
   },
@@ -64,7 +66,9 @@ export const useCartStore = create<CartState>((set, get) => ({
 
       const updatedCart = await cartServices.addItem(cartData.id, productId, quantity);
       set({ cart: updatedCart });
+      enqueueSnackbar("Producto agregado al carrito 🛒", { variant: "success" });
     } catch (error) {
+      enqueueSnackbar("Error al agregar producto al carrito", { variant: "error" });
       console.error("Error al agregar producto al carrito:", error);
     }
   }

@@ -13,12 +13,16 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Box,
+  Divider,
+  IconButton,
 } from "@mui/material";
+import { Add, Person, Business, Email, Phone } from "@mui/icons-material";
 import { useCustomersStore } from "@/modules/customers/stores/customersStore";
 import { Customer } from "@/types";
 
 export default function CustomersPage() {
-  const router = useRouter(); 
+  const router = useRouter();
   const { customers, activeCustomer, fetchCustomers, setActiveCustomer, addCustomer, loading } =
     useCustomersStore();
 
@@ -38,16 +42,16 @@ export default function CustomersPage() {
     fetchCustomers();
   }, []);
 
-  const handleCreatecustomer = async () => {
+  const handleCreateCustomer = async () => {
     try {
-      addCustomer(newCustomer);
+      await addCustomer(newCustomer);
       setOpenDialog(false);
       setNewcustomer({
-        customer_type: "",
+        customer_type: "individual",
         first_name: "",
         last_name: "",
         company_name: "",
-        identification_type: "",
+        identification_type: "CC",
         identification_number: "",
         email: "",
         phone: "",
@@ -57,37 +61,87 @@ export default function CustomersPage() {
     }
   };
 
- 
   return (
-    <div>
-      <Typography variant="h4" gutterBottom>
-        clientes
-      </Typography>
+    <Box sx={{ p: 4 }}>
+      {/* Header */}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={3}
+      >
+        <Typography variant="h4" fontWeight={600}>
+          Clientes
+        </Typography>
 
-      <Button variant="contained" onClick={() => setOpenDialog(true)}>
-        Crear cliente
-      </Button>
+        <Button
+          startIcon={<Add />}
+          variant="contained"
+          color="primary"
+          onClick={() => setOpenDialog(true)}
+        >
+          Nuevo cliente
+        </Button>
+      </Box>
 
+      <Divider sx={{ mb: 3 }} />
+
+      {/* Listado */}
       {loading ? (
-        <Typography>Cargando...</Typography>
+        <Typography>Cargando clientes...</Typography>
+      ) : customers.length === 0 ? (
+        <Typography color="text.secondary">
+          No hay clientes registrados.
+        </Typography>
       ) : (
-        <Grid container spacing={2} style={{ marginTop: "1rem" }}>
+        <Grid container spacing={3}>
           {customers.map((customer) => (
-            <Grid key={customer.id} size={{ xs: 12, sm: 6, md: 4 }}  component={'div'}>
+            <Grid key={customer.id} size={{ xs: 12, sm: 6, md: 4 }} component={'div'}>
               <Card
-                variant={activeCustomer?.id === customer.id ? "outlined" : "elevation"}
-                style={{
-                  border: activeCustomer?.id === customer.id ? "2px solid blue" : undefined,
-                  cursor: "pointer",
-                }}
                 onClick={() => setActiveCustomer(customer)}
+                sx={{
+                  cursor: "pointer",
+                  border:
+                    activeCustomer?.id === customer.id
+                      ? "2px solid #1976d2"
+                      : "1px solid #e0e0e0",
+                  transition: "all 0.2s ease-in-out",
+                  "&:hover": {
+                    boxShadow: 4,
+                    transform: "translateY(-2px)",
+                  },
+                }}
               >
                 <CardContent>
-                  <Typography variant="h6">{customer.first_name}</Typography>
-                  {customer.last_name && <Typography>{customer.last_name}</Typography>}
-                  {customer.email && <Typography>{customer.email}</Typography>}
-                  {customer.phone && <Typography>{customer.phone}</Typography>}
+                  <Box display="flex" alignItems="center" mb={1}>
+                    <Person color="primary" sx={{ mr: 1 }} />
+                    <Typography variant="h6">
+                      {customer.first_name} {customer.last_name}
+                    </Typography>
+                  </Box>
 
+                  {customer.company_name && (
+                    <Box display="flex" alignItems="center" mb={0.5}>
+                      <Business sx={{ mr: 1 }} fontSize="small" color="action" />
+                      <Typography variant="body2">
+                        {customer.company_name}
+                      </Typography>
+                    </Box>
+                  )}
+
+                  {customer.email && (
+                    <Box display="flex" alignItems="center" mb={0.5}>
+                      <Email sx={{ mr: 1 }} fontSize="small" color="action" />
+                      <Typography variant="body2">{customer.email}</Typography>
+                    </Box>
+                  )}
+
+                  {customer.phone && (
+                    <Box display="flex" alignItems="center">
+                      <Phone sx={{ mr: 1 }} fontSize="small" color="action" />
+                      <Typography variant="body2">{customer.phone}</Typography>
+                    </Box>
+                  )}
                 </CardContent>
               </Card>
             </Grid>
@@ -95,43 +149,82 @@ export default function CustomersPage() {
         </Grid>
       )}
 
-      {/* Dialog para crear cliente */}
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <DialogTitle>Crear cliente</DialogTitle>
-        <DialogContent style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <TextField
-            label="Nombre"
-            value={newCustomer.first_name}
-            onChange={(e) => setNewcustomer({ ...newCustomer, first_name: e.target.value })}
-          />
-          <TextField
-            label="Apellido"
-            value={newCustomer.last_name}
-            onChange={(e) => setNewcustomer({ ...newCustomer, last_name: e.target.value })}
-          />
-          <TextField
-            label="Email"
-            value={newCustomer.email}
-            onChange={(e) => setNewcustomer({ ...newCustomer, email: e.target.value })}
-          />
-          <TextField
-            label="Teléfono"
-            value={newCustomer.phone}
-            onChange={(e) => setNewcustomer({ ...newCustomer, phone: e.target.value })}
-          />
-          <TextField
-            label="Número de identificación"
-            value={newCustomer.identification_number}
-            onChange={(e) => setNewcustomer({ ...newCustomer, identification_number: e.target.value })}
-          />
+      {/* Dialog Crear Cliente */}
+      <Dialog
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle fontWeight={600}>Registrar nuevo cliente</DialogTitle>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 1 }}
+        >
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12, sm: 6 }} component={'div'} >
+              <TextField
+                label="Nombre"
+                value={newCustomer.first_name}
+                onChange={(e) =>
+                  setNewcustomer({ ...newCustomer, first_name: e.target.value })
+                }
+                fullWidth
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }} component={'div'}>
+              <TextField
+                label="Apellido"
+                value={newCustomer.last_name}
+                onChange={(e) =>
+                  setNewcustomer({ ...newCustomer, last_name: e.target.value })
+                }
+                fullWidth
+              />
+            </Grid>
+            <Grid size={{ xs: 12 }} component={'div'}>
+              <TextField
+                label="Email"
+                type="email"
+                value={newCustomer.email}
+                onChange={(e) =>
+                  setNewcustomer({ ...newCustomer, email: e.target.value })
+                }
+                fullWidth
+              />
+            </Grid>
+            <Grid size={{ xs: 12 }} component={'div'}>
+              <TextField
+                label="Teléfono"
+                value={newCustomer.phone}
+                onChange={(e) =>
+                  setNewcustomer({ ...newCustomer, phone: e.target.value })
+                }
+                fullWidth
+              />
+            </Grid>
+            <Grid size={{ xs: 12 }} component={'div'}>
+              <TextField
+                label="Número de identificación"
+                value={newCustomer.identification_number}
+                onChange={(e) =>
+                  setNewcustomer({
+                    ...newCustomer,
+                    identification_number: e.target.value,
+                  })
+                }
+                fullWidth
+              />
+            </Grid>
+          </Grid>
         </DialogContent>
-        <DialogActions>
+
+        <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={() => setOpenDialog(false)}>Cancelar</Button>
-          <Button variant="contained" onClick={handleCreatecustomer}>
-            Crear
+          <Button variant="contained" onClick={handleCreateCustomer}>
+            Crear cliente
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   );
 }

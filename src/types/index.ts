@@ -64,5 +64,6 @@ export interface Order {
   customer: Customer;
   seller: number;
   total: number;
-  status: string
+  status: string;
+  created_at: string;
 }

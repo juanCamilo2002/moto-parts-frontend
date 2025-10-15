@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { orderServices } from '../services/orderServices'
 import { Order } from "@/types";
+import { enqueueSnackbar } from "notistack";
 
 interface OrderState {
   orders: Order[];
@@ -31,6 +32,7 @@ export const useOrderStore = create<OrderState>((set, get) => ({
       set({
         orders: get().orders.map((o) => (o.id === orderId ? updatedOrder : o)),
       });
+      enqueueSnackbar("Estado actualizado exitosamente ✅", { variant: "success" });
     } catch (error) {
       console.error("Error al actualizar estado:", error);
     }
