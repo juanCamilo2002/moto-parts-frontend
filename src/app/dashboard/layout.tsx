@@ -1,16 +1,20 @@
+import DashboardLayout from '@/components/DashboardLayout'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import React, { ReactNode } from 'react'
+
 
 interface Props {
     children: ReactNode
 }
 
-const DashboardLayout = ({ children }: Props) => {
+const DashboardLayoutComponent = ({ children }: Props) => {
     return (
         <ProtectedRoute>
-            {children}
+            <DashboardLayout>
+                {children}
+            </DashboardLayout>
         </ProtectedRoute>
     )
 }
 
-export default DashboardLayout
+export default DashboardLayoutComponent
