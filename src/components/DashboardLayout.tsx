@@ -1,25 +1,29 @@
 "use client";
-
-import { Box, CssBaseline, Toolbar, ThemeProvider } from "@mui/material";
-import Sidebar from "./Sidebar";
-import Topbar from "./TopBar";
-import theme from "@/theme/theme";
-import ProtectedRoute from "./ProtectedRoute";
+import { useState } from "react";
+import Sidebar from "@/components/Sidebar";
+import Topbar from "@/components/TopBar";
+import { Box, Toolbar } from "@mui/material";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+
   return (
-    <ProtectedRoute>
-      <ThemeProvider theme={theme}>
-        <Box sx={{ display: "flex" }}>
-          <CssBaseline />
-          <Topbar />
-          <Sidebar />
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            <Toolbar />
-            {children}
-          </Box>
-        </Box>
-      </ThemeProvider>
-    </ProtectedRoute>
+    <Box sx={{ display: "flex" }}>
+      <Topbar onMenuClick={handleDrawerToggle} />
+      <Sidebar mobileOpen={mobileOpen} onClose={handleDrawerToggle} />
+
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - 240px)` },
+        }}
+      >
+        <Toolbar /> {/* evita que el contenido se oculte tras el topbar */}
+        {children}
+      </Box>
+    </Box>
   );
 }
