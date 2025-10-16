@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { Product } from "@/types";
 import { productsService } from "../services/productsService";
+import { loadFromCache, saveToCache } from "@/utils/cache";
 
 interface ProductsState {
     products: Product[],
@@ -15,10 +16,13 @@ export const useProductsStore = create<ProductsState>((set) => ({
         set({loading: true});
         try {
             const data = await productsService.getAll();
-            set({products: data, loading: false})
+            set({products: data, loading: false});
+            saveToCache("products_cache", data);
         } catch (error) {
-            console.error(error);
-            set({loading: false})
+            console.warn("Fallo la red, usando cache...");
+            const cached = loadFromCache("products_cache");
+            if (cached) set({ products: cached });
+            set({ loading: false });
         }
     }
 }));
